@@ -1,0 +1,91 @@
+#include "MatrixCalculator.h"
+#include<iostream>
+#include"Matrix.h"
+MatrixCalculator::MatrixCalculator()
+{
+    //ctor
+}
+Matrix<int> MatrixCalculator::Addition()
+{
+
+    cout<<"Enter the first Matrix  "<<endl;
+    cin>>a;
+
+    cout<<"Enter the second Matrix "<<endl;
+    cin>>b;
+
+    cout<<"The result is " <<endl;
+    c = a + b;
+    return c;
+
+}
+Matrix<int> MatrixCalculator::subtraction()
+{
+    cout<<"Enter the first Matrix  "<<endl;
+    cin>>a;
+
+    cout<<"Enter the second Matrix "<<endl;
+    cin>>b;
+
+    cout<<"The result is " <<endl;
+    c = a - b;
+
+    return c;
+}
+Matrix<int> MatrixCalculator::Multiplication()
+{
+    cout<<"Enter the first Matrix  "<<endl;
+    cin>>a;
+
+    cout<<"Enter the second Matrix "<<endl;
+    cin>>b;
+
+    cout<<"The result is " <<endl;
+    c = a * b;
+
+    return c;
+}
+void MatrixCalculator::Trans()
+{
+    cout<<"Enter your Matrix  "<<endl;
+    cin>>a;
+
+    cout<<"The result is " <<endl;
+
+    a.Transport();
+}
+
+void MatrixCalculator::Menu()
+{
+    Matrix<int> x;
+    cout<<"1- Perform Matrix Addition "<<endl;
+    cout<<"2- Perform Matrix Subtraction "<<endl;
+    cout<<"3- Perform Matrix Multiplication "<<endl;
+    cout<<"4- Matrix Transport "<<endl;
+    int choice;
+    cin>>choice;
+    if(choice == 1)
+    {
+        x = Addition();
+        cout<< x ;
+    }
+    if(choice == 2)
+    {
+        x = subtraction();
+        cout<< x ;
+    }
+    if(choice == 3)
+    {
+        x = Multiplication();
+        cout<< x ;
+    }
+    if(choice == 4)
+    {
+        Trans();
+    }
+}
+
+MatrixCalculator::~MatrixCalculator()
+{
+    //dtor
+}

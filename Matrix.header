@@ -1,0 +1,251 @@
+#ifndef MATRIX_H
+#define MATRIX_H
+#include<iostream>
+using namespace std;
+
+template < class T >
+class Matrix
+{
+private:
+    int rows;
+    int columns;
+    T **arr;
+
+public:
+Matrix()
+{
+    rows = 0 ;
+    columns = 0;
+}
+
+Matrix<T>(int r , int c)
+{
+    rows = r;
+    columns = c;
+    arr = new T *[r];
+    for (int i = 0 ; i < r ; i++ )
+    {
+        arr[i] = new T [c];
+        for (int j = 0 ; j < columns ; j++ )
+            arr[i][j] = 0;
+    }
+}
+
+Matrix< T > (int c , T *a[])
+{
+    columns = c;
+    for (int i = 0 ; i <rows ; i++ )
+    {
+        for (int j = 0 ;j <columns ; j++)
+            arr[i][j] = a[i][j];
+    }
+}
+
+Matrix< T > (int r , int c , T *a[])
+{
+    rows = r;
+    columns = c;
+    arr = new T *[rows];
+    for (int i = 0 ; i < rows ; i++)
+    {
+        arr[i] = new T [columns];
+        for (int j = 0 ; j < columns ; j++)
+            arr[i][j] = a[i][j];
+    }
+}
+
+void set_columns(int c)
+{
+    columns = c;
+}
+
+void set_rows(int r)
+{
+    rows = r;
+}
+
+void set_elements(T *ar[])
+{
+    for (int i = 0 ; i< rows ; i++)
+    {
+        for (int j = 0 ;j < columns ; j++)
+            arr[i][j] = ar[i][j];
+    }
+}
+
+int get_rows()
+{
+    return rows;
+}
+
+int get_columns()
+{
+    return columns;
+}
+
+void get_elements()
+{
+   for (int i = 0 ; i < rows; i++ )
+   {
+       for (int j = 0 ; j < columns ; j++ )
+          cout<<arr[i][j]<<" ";
+       cout<<endl;
+   }
+}
+
+Matrix < T > (const Matrix < T > &mat)
+{
+    rows = mat.rows;
+    columns = mat.columns;
+    arr = new T *[rows];
+    for (int i = 0 ; i < rows ; i++)
+    {
+        arr[i] = new T [columns];
+        for (int j = 0 ; j < columns ; j++ )
+        {
+           arr[i][j] = mat.arr[i][j];
+        }
+    }
+}
+
+Matrix < T > operator+(const Matrix < T > &second)
+{
+    if(rows != second.rows || columns != second.columns)
+    {
+        cout<<"INVALID and matrix 1 is "<<endl;
+        return *this;
+
+    }
+    else
+    {
+    Matrix <T> sum(second.rows,second.columns,second.arr);
+    sum.arr = new T *[sum.rows];
+    for (int i = 0 ;i < sum.rows ; i++)
+    {
+        sum.arr[i] = new T [sum.columns];
+        for (int j = 0 ; j < sum.columns ; j++)
+         {
+          sum.arr[i][j] = arr[i][j] + second.arr[i][j];
+         }
+    }
+    return sum;
+    }
+}
+
+Matrix <T> operator-(const Matrix<T> &second)
+{
+    if(rows != second.rows || columns != second.columns)
+    {
+        cout<<"INVALID and matrix 1 is "<<endl;
+        return *this;
+    }
+    else
+    {
+    Matrix<T> sub(second.rows,second.columns,second.arr);
+    sub.arr = new T *[sub.rows];
+    for (int i = 0 ;i < sub.rows ; i++)
+    {
+        sub.arr[i] = new T [sub.columns];
+        for (int j = 0 ; j < sub.columns ; j++)
+         {
+          sub.arr[i][j] = arr[i][j] - second.arr[i][j];
+         }
+    }
+    return sub;
+    }
+}
+
+Matrix<T> operator*( Matrix<T> &second)
+{
+   if (columns != second.rows)
+    {
+        cout<<"INVALID and matrix 1 is"<<endl;
+        return *this;
+    }
+    else
+        {
+         float sum1=0;
+         Matrix multiply;
+         multiply.rows = rows;
+         multiply.columns = second.columns;
+         multiply.arr = new T *[multiply.rows];
+         for(int i = 0 ; i < multiply.rows ; i++ )
+          {
+             multiply.arr[i] = new T [ multiply.columns];
+          }
+         for (int i = 0 ; i < rows ; i++ )
+          {
+           for(int j = 0 ; j < second.columns ; j++)
+            {
+              sum1=0;
+              for (int s = 0 ; s < columns ; s++ )     // 2* 3   3*2 -> 2 * 2
+               {
+                 sum1+=arr[i][s]*second.arr[s][j];
+               }
+           multiply.arr[i][j] = sum1;
+           }
+         }
+        return multiply;
+      }
+}
+
+Matrix <T> operator=( const Matrix < T > &second)
+{
+    rows = second.rows;
+    columns = second.columns;
+    arr = new T *[rows];
+    for (int i = 0 ; i < rows ; i++)
+    {
+        arr[i] = new T [columns];
+        for (int j = 0 ; j < columns ; j++ )
+        {
+            arr[i][j] = second.arr[i][j];
+        }
+    }
+    return *this;
+}
+
+void Transport()
+{
+    for (int i = 0 ; i < columns ; i++ )
+    {
+        for (int j = 0 ; j < rows ; j++ )
+        {
+           cout<<arr[j][i]<<" ";
+        }
+        cout<<endl;
+    }
+}
+
+friend ostream &operator<< (ostream &out, Matrix & second)
+ {
+      for (int i = 0 ;i < second.rows ; i++)
+       {
+        for (int j = 0 ; j< second.columns ; j++)
+          out<<second.arr[i][j]<<" ";
+      out<<endl;
+       }
+     return out;
+ }
+
+ friend istream &operator>>( istream  &input, Matrix &second )
+      {
+         input >> second.rows >> second.columns;
+         second.arr = new T *[second.rows];
+         for (int  i = 0 ;i < second.rows ; i++)
+         {
+             second.arr[i] = new T [second.columns];
+             for(int j = 0 ;j < second.columns ; j++)
+                cin>>second.arr[i][j];
+         }
+         return input;
+      }
+
+~Matrix()
+{
+    for(int i = 0 ;i < rows ; i++)
+        delete arr[i];
+    delete []arr;
+}
+};
+#endif // MATRIX_H

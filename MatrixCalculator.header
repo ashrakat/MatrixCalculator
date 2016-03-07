@@ -1,0 +1,23 @@
+#ifndef MATRIXCALCULATOR_H
+#define MATRIXCALCULATOR_H
+#include"Matrix.h"
+
+class MatrixCalculator
+{
+    public:
+        MatrixCalculator();
+        Matrix<int> Addition();
+        Matrix<int> subtraction();
+        Matrix<int>Multiplication();
+        void Trans();
+        void Menu();
+        ~MatrixCalculator();
+
+    private:
+        Matrix <int> a;
+        Matrix <int >b;
+        Matrix <int> c;
+
+};
+
+#endif // MATRIXCALCULATOR_H
